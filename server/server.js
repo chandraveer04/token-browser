@@ -22,9 +22,13 @@ app.use('/api/banking', require('./routes/banking'));
 app.use('/api/transactions', require('./routes/transactions'));
 app.use('/api/activities', require('./routes/activities'));
 
-// Basic route for testing
-app.get('/', (req, res) => {
-  res.json({ message: 'Token Browser API is running' });
+// Serve static files from the React app
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../build')));
+
+// The catch-all handler: for any request that doesn't match an API route, send back React's index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 // Error handling middleware
